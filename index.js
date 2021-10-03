@@ -16,35 +16,83 @@ const init = () => {
     .then(({ action }) => {
       switch (action) {
         case 'Add Department':
-          // addDepartment()
+          addDepartment()
           break;
         case 'Add Role':
-          // addRole()
+          addRole()
           break;
         case 'Add Employee':
-          // addEmployee()
+          addEmployee()
           break;
         case 'View Departments':
-          // viewDepartments()
+          viewDepartments()
           break;
         case 'View Roles':
-          // viewRoles()
+          viewRoles()
           break;
         case 'View Employees':
-          // viewEmployees()
+          viewEmployees()
           break;
         case 'Update Employees':
-          // updateEmployees()
+          updateEmployees()
           break;
       }
     })
 }
+
+//WK7DY3 03:03:51
+const addDepartment = () => {
+  prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: `Please Enter New Department's Name`
+    }
+  ])
+    .then(newDep => {
+      db.query(`INSERT INTO departments SET ?`, newDep, err => {
+        if (err) {
+          console.log(err)
+        }
+        else {
+          console.log(`----${newDep.name} Department has been added----`)
+        }
+        init()
+      })
+    })
+    .catch(err => console.log(err))
+}
+
 //WK7DY3 02:52:40
 const viewDepartments = () => {
   db.query('SELECT departments.id, departments.name as department FROM departments', (err, departments) => {
     console.table(departments)
   })
 }
+
+// const addRole = () => {
+//   prompt([
+//     {
+//       type: 'input',
+//       name: 'title',
+//       message: 'Role Played'
+//     },
+//     {
+//       type: 'number',
+//       name: 'salary',
+//       message: 'Gross Annual Pay'
+//     },
+//     {
+//       type: 'input',
+//       name: 'department_id',
+//       message: 'Role Department id'
+//     }
+//   ])
+//   .then(newRole => {
+//     dbquery('INSERT INTO roles SET ?')
+//   })
+// }
+
 
 const viewRoles = () => {
   db.query('SELECT roles.id, roles.title, roles.salary, department.name as department FROM roles LEFT JOIN departments on roles.department_id = departments.id', (err, roles) => {
