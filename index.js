@@ -22,7 +22,7 @@ const init = () => {
           addRole()
           break;
         case 'Add Employee':
-          addEmployee()
+          // addEmployee()
           break;
         case 'View Departments':
           viewDepartments()
@@ -31,10 +31,10 @@ const init = () => {
           viewRoles()
           break;
         case 'View Employees':
-          viewEmployees()
+          // viewEmployees()
           break;
         case 'Update Employees':
-          updateEmployees()
+          // updateEmployees()
           break;
       }
     })
@@ -51,12 +51,40 @@ const addDepartment = () => {
   ])
     .then(newDep => {
       db.query(`INSERT INTO departments SET ?`, newDep, err => {
-        if (err) {
-          console.log(err)
-        }
+        if (err) { console.log(err) }
         else {
           console.log(`----${newDep.name} Department has been added----`)
         }
+        init()
+      })
+    })
+    .catch(err => console.log(err))
+}
+
+//WK7DY3 03:14:00
+const addRole = () => {
+  prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Role Title: '
+    },
+    {
+      type: 'number',
+      name: 'salary',
+      message: 'Role Salary: '
+    },
+    {
+      type: 'input',
+      name: 'department_id',
+      message: 'Role Department_id: '
+    }
+  ])
+    .then(newRole => {
+      db.query(`INSERT INTO roles SET ?`, newRole, err => {
+        if (err) { console.log(err) }
+        else { 
+          console.log(`----${newRole.title} role created----`) }
         init()
       })
     })
@@ -70,32 +98,8 @@ const viewDepartments = () => {
   })
 }
 
-// const addRole = () => {
-//   prompt([
-//     {
-//       type: 'input',
-//       name: 'title',
-//       message: 'Role Played'
-//     },
-//     {
-//       type: 'number',
-//       name: 'salary',
-//       message: 'Gross Annual Pay'
-//     },
-//     {
-//       type: 'input',
-//       name: 'department_id',
-//       message: 'Role Department id'
-//     }
-//   ])
-//   .then(newRole => {
-//     dbquery('INSERT INTO roles SET ?')
-//   })
-// }
-
-
 const viewRoles = () => {
-  db.query('SELECT roles.id, roles.title, roles.salary, department.name as department FROM roles LEFT JOIN departments on roles.department_id = departments.id', (err, roles) => {
+  db.query('SELECT roles.id, roles.title, roles.salary, departments.name as department FROM roles LEFT JOIN departments ON roles.department_id = departments.id', (err, roles) => {
     console.table(roles)
   })
 }
