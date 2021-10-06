@@ -22,7 +22,7 @@ const init = () => {
           addRole()
           break;
         case 'Add Employee':
-          // addEmployee()
+          addEmployee()
           break;
         case 'View Departments':
           viewDepartments()
@@ -31,10 +31,10 @@ const init = () => {
           viewRoles()
           break;
         case 'View Employees':
-          // viewEmployees()
+          viewEmployees()
           break;
         case 'Update Employees':
-          // updateEmployees()
+          updateEmployees()
           break;
       }
     })
@@ -90,6 +90,44 @@ const addRole = () => {
     })
     .catch(err => console.log(err))
 }
+
+//WK7DY3 03:19:28
+const addEmployee = () => {
+    prompt([{
+      type: 'input',
+      name: 'first_name',
+      message: `Employee's first name?`
+    },
+    {
+      type: 'input',
+      name: 'last_name',
+      message: `Employee's last name?`
+    },
+    {
+      type: 'input',
+      name: 'role_id',
+      message: `Employee's Role Id?`
+    },
+    {
+      type: 'number',
+      name: 'manager_id',
+      message: `Employee's Manager ID?`
+    }
+  ])
+    .then(newEmp => {
+      if (!newEmp.manager_id) {
+        delete newEmp.manager_id
+      }
+      console.log(newEmp)
+
+      db.query('INSERT INTO employees SET ?', newEmp, err => {
+        if (err) { console.log(err) }
+        else { console.log(`----${newEmp.first_name} has been added----`) }
+        init()
+      })
+    })
+    .catch(err => console.log(err))
+}  
 
 //WK7DY3 02:52:40
 const viewDepartments = () => {
