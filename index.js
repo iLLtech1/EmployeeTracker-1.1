@@ -10,7 +10,7 @@ const init = () => {
       type: 'list',
       name: 'action',
       message: 'What would you like to do',
-      choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', ' View Roles', 'View Employees', 'Update Employee']
+      choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'View Roles', 'View Employees', 'Update Employee']
     }
   ])
     .then(({ action }) => {
