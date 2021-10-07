@@ -1,4 +1,5 @@
 const { prompt } = require('inquirer')
+const { fetchAsyncQuestionProperty } = require('inquirer/lib/utils/utils')
 const { createConnection } = require('mysql2')
 require('console.table')
 
@@ -40,7 +41,7 @@ const init = () => {
     })
 }
 
-//WK7DY3 03:03:51
+//03:03:51
 const addDepartment = () => {
   prompt([
     {
@@ -61,7 +62,7 @@ const addDepartment = () => {
     .catch(err => console.log(err))
 }
 
-//WK7DY3 03:14:00
+//03:14:00
 const addRole = () => {
   prompt([
     {
@@ -91,7 +92,7 @@ const addRole = () => {
     .catch(err => console.log(err))
 }
 
-//WK7DY3 03:19:28
+//03:19:28
 const addEmployee = () => {
     prompt([{
       type: 'input',
@@ -127,24 +128,77 @@ const addEmployee = () => {
       })
     })
     .catch(err => console.log(err))
-}  
+} 
+
+//03:41:00
+const updateEmployee = () => {
+  db.query('SELECT * FROM roles', (err, roles) => {
+    db.query('SELECT * FROM employees', (err, employees) => {
+      prompt([
+        {
+          type: 'list',
+          name: 'id',
+          message: 'Select and Butthead to Update',
+          choices: employees.map(employee -> ({
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id
+          }))
+        },
+        {
+          type: 'list',
+          name: 'role_id',
+          message: `Employee's new Role?`,
+          choices: roles.map(roles => ({
+            name: roles.title,
+            value: roles.id
+          }))
+        },
+        {
+          type: 'list',
+          name: 'manager_id',
+          message: `Update Manager Status, please.`,
+          choices: roles.map(employee => ({
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id
+          }))
+        }
+      ])
+        .then(({ id, role_id, manager_id }) => {
+          let update = {
+            manager_id,
+            role_id
+          }
+          db.query('UPDATE employees SET ? WHERE ?', [update, { id }],
+          err => { if err { console.log(err) }
+          else { console.log('The Butthead has been updated') }
+          viewEmployees()
+          init()
+        })
+      })
+      .catch(err => console.log(err))//03:46:23
+    })
+  })
+}
 
 //WK7DY3 02:52:40
 const viewDepartments = () => {
   db.query('SELECT departments.id, departments.name as department FROM departments', (err, departments) => {
     console.table(departments)
+    init()
   })
 }
 
 const viewRoles = () => {
   db.query('SELECT roles.id, roles.title, roles.salary, departments.name as department FROM roles LEFT JOIN departments ON roles.department_id = departments.id', (err, roles) => {
     console.table(roles)
+    init()
   })
 }
 
 const viewEmployees = () => {
-  db.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.title, roles.salary, departments.name AS 'department', CONCAT(manager.first_name, '', manager.last_name) AS 'manager' FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = de[artments.id LEFT JOIN employees manager ON manager.id = employees.manager_id`, (err, employees) => {
+  db.query(`SELECT employees.id, employees.first_name, employees.last_name, roles.title, roles.salary, departments.name AS 'department', CONCAT(manager.first_name, ' ', manager.last_name) AS 'manager' FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = de[artments.id LEFT JOIN employees manager ON manager.id = employees.manager_id`, (err, employees) => {
     console.table(employees)
+    init()
   })
 }
 
