@@ -1,12 +1,11 @@
-# EmployeeTracker-1.1
+# EmployeeTracker-1.1 AKA EMPLOYEE MANAGMENT SYSTEM
 
-Error Code: 1007. Can't create database 'employeez_db'; database exists
-Error Code: 1054. Unknown column 'roles.salary' in 'field list'
-Error Code: 1054. Unknown column 'roles.salary' in 'field list'
+This is a database that allows the user to Add a Department, Role, and Employee.
 
-Error Code: 1050. Table 'departments' already exists
-Error Code: 1054. Unknown column 'roles.salary' in 'field list'
+The user can also include salary and manager status.
 
-  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+The user can also update any Department, Role, or Employee with-in this system.
 
-SELECT roles.id, roles.title, roles.salary, departments.name AS department FROM roles LEFT JOIN departments ON roles.department_id = departments.id
+
+
+
