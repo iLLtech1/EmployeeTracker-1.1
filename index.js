@@ -148,17 +148,17 @@ const updateEmployee = () => {
         {
           type: 'list',
           name: 'role_id',
-          message: `Employee's new Role?`,
-          choices: roles.map(roles => ({
-            name: roles.title,
-            value: roles.id
+          message: `Employee's new Role: `,
+          choices: roles.map(role => ({
+            name: role.title,
+            value: role.id
           }))
         },
         {
           type: 'list',
           name: 'manager_id',
           message: `Update Manager Status, please.`,
-          choices: roles.map(employee => ({
+          choices: employees.map(employee => ({
             name: `${employee.first_name} ${employee.last_name}`,
             value: employee.id
           }))
@@ -169,15 +169,14 @@ const updateEmployee = () => {
             manager_id,
             role_id
           }
-          db.query('UPDATE employees SET ? WHERE ?', [update, { id }],
-            err => {
-              if err { console.log(err) }
-              else { console.log('The Butthead has been updated') }
-              viewEmployees()
-              init()
-            })
+          db.query('UPDATE employees SET ? WHERE ?', [update, { id }], err => { 
+            if (err) { console.log(err) }
+            else { console.log('The Employee has been updated') }
+            viewEmployees()
+            init()
+          })
         })
-        .catch(err => console.log(err))//03:46:23
+      .catch(err => console.log(err))//03:46:23
     })
   })
 }
