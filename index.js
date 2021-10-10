@@ -84,8 +84,9 @@ const addRole = () => {
     .then(newRole => {
       db.query(`INSERT INTO roles SET ?`, newRole, err => {
         if (err) { console.log(err) }
-        else { 
-          console.log(`----${newRole.title} role created----`) }
+        else {
+          console.log(`----${newRole.title} role created----`)
+        }
         init()
       })
     })
@@ -94,26 +95,26 @@ const addRole = () => {
 
 //03:19:28
 const addEmployee = () => {
-    prompt([{
-      type: 'input',
-      name: 'first_name',
-      message: `Employee's first name?`
-    },
-    {
-      type: 'input',
-      name: 'last_name',
-      message: `Employee's last name?`
-    },
-    {
-      type: 'input',
-      name: 'role_id',
-      message: `Employee's Role Id?`
-    },
-    {
-      type: 'number',
-      name: 'manager_id',
-      message: `Employee's Manager ID?`
-    }
+  prompt([{
+    type: 'input',
+    name: 'first_name',
+    message: `Employee's first name?`
+  },
+  {
+    type: 'input',
+    name: 'last_name',
+    message: `Employee's last name?`
+  },
+  {
+    type: 'input',
+    name: 'role_id',
+    message: `Employee's Role Id?`
+  },
+  {
+    type: 'number',
+    name: 'manager_id',
+    message: `Employee's Manager ID?`
+  }
   ])
     .then(newEmp => {
       if (!newEmp.manager_id) {
@@ -128,7 +129,7 @@ const addEmployee = () => {
       })
     })
     .catch(err => console.log(err))
-} 
+}
 
 //03:41:00
 const updateEmployee = () => {
@@ -139,7 +140,7 @@ const updateEmployee = () => {
           type: 'list',
           name: 'id',
           message: 'Select and Butthead to Update',
-          choices: employees.map(employee -> ({
+          choices: employees.map(employee => ({
             name: `${employee.first_name} ${employee.last_name}`,
             value: employee.id
           }))
@@ -169,13 +170,14 @@ const updateEmployee = () => {
             role_id
           }
           db.query('UPDATE employees SET ? WHERE ?', [update, { id }],
-          err => { if err { console.log(err) }
-          else { console.log('The Butthead has been updated') }
-          viewEmployees()
-          init()
+            err => {
+              if err { console.log(err) }
+              else { console.log('The Butthead has been updated') }
+              viewEmployees()
+              init()
+            })
         })
-      })
-      .catch(err => console.log(err))//03:46:23
+        .catch(err => console.log(err))//03:46:23
     })
   })
 }
@@ -203,8 +205,3 @@ const viewEmployees = () => {
 }
 
 init()
-
-
-
-
-

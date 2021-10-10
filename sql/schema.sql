@@ -1,5 +1,3 @@
-
-
 CREATE DATABASE employeez_db;
 
 USE employeez_db;
